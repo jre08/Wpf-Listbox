@@ -4,63 +4,60 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication3"
-        xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit"  xmlns:mui="http://firstfloorsoftware.com/ModernUI"  x:Class="MainWindow"
+        xmlns:Overlays="clr-namespace:Microsoft.Maps.MapControl.WPF.Overlays;assembly=Microsoft.Maps.MapControl.WPF"  x:Class="MainWindow"
         mc:Ignorable="d"
-        Title="WPF WINDOW" Height="413.636" Width="568.182">
+        Title="Weather" Height="906.686" Width="1228.282" Loaded="Window_Loaded" WindowState="Maximized" Style="{DynamicResource MetroWindowStyle}">
+
 
     <Window.Resources>
+        <DataTemplate x:Key="itemsList">
+            <Border Margin="5" BorderBrush="White" BorderThickness="1">
+                <StackPanel Margin="3,3,3,3" Width="270">
 
-        <DataTemplate x:Key="listBoxTemplate">
 
-            <StackPanel Margin="3" MaxWidth="330" >
+                    <DockPanel >
 
-                <DockPanel >
+                        <TextBlock FontWeight="Bold" x:Name="Contactname" Text="{Binding ContactName}" 
 
-                    <TextBlock FontWeight="Bold" Text="Day:" 
+        				DockPanel.Dock="Left" 
 
-                  DockPanel.Dock="Left" 
+        				Margin="5,0,10,4" Foreground="White" FontFamily="Arial Black" FontSize="18.667"/>
 
-                  Margin="5,0,10,0"/>
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Left" MaxWidth="250">
 
-                    <TextBlock Text="  " />
+                        <Image x:Name="imgDayIcon" Source="{Binding imgDayIcon}" Stretch="Fill" Width="50" Height="50" />
 
-                    <TextBlock Name="Contactname" Text="{Binding ContactName}" Foreground="Green" FontWeight="Bold" />
 
-                </DockPanel>
+                        <TextBlock x:Name="Address" TextWrapping="wrap" Text="{Binding Address}" Foreground="White" FontFamily="Arial Black" Margin="8,0,0,0" />
 
-                <DockPanel >
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock FontWeight="Bold" Text="Perciptation:" Foreground ="White"  
 
-                    <TextBlock FontWeight="Bold" Text="Address:" Foreground ="DarkOrange"  
+        				DockPanel.Dock="Left" 
 
-                  DockPanel.Dock="Left" 
+        				Margin="5,0,5,0"/>
 
-                  Margin="5,0,5,0"/>
+                    </DockPanel>
 
-                    <TextBlock Name="Address" Text="{Binding Address}" />
-
-                    <TextBlock Text=", " />
-
-                    <TextBlock Name ="City" Text="{Binding City}" />
-
-                    <TextBlock Text=", " />
-
-                    <TextBlock Name="Country" Text="{Binding Country}" />
-
-                </DockPanel>
-
-            </StackPanel>
-
+                </StackPanel>
+            </Border>
         </DataTemplate>
 
     </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="Resources/bg.jpg"/>
+    </Window.Background>
 
-    <Grid HorizontalAlignment="Left" Height="368" Margin="10,10,0,0" VerticalAlignment="Top" Width="544">
+    <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="79*"/>
-            <ColumnDefinition Width="465*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Height="32" Margin="10,10,0,0" VerticalAlignment="Top" Width="59"/>
-        <ListBox Margin="10,10,89,24" Name="listBox1"  ItemsSource="{Binding Path=ContactName}" ItemTemplate="{StaticResource listBoxTemplate}" Grid.Column="1" />
+        <ListBox Margin="10,193,0,173" x:Name="listBox1" ItemTemplate="{StaticResource itemsList}"  BorderThickness="2" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsSynchronizedWithCurrentItem="False" Background="{x:Null}" BorderBrush="White" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="305" />
+        <WPF:Map x:Name="wthrmap" CredentialsProvider="Aq2HnustT_KqzkcjJ-p0fMGrzYDh8BDD-lVqhy9c6nDmsQgIsGTghkNpM_IY6_PK" Margin="346,193,187,173"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,708,0,0" Width="305" Height="37" VerticalAlignment="Top"/>
+        <TextBox x:Name="infobox" HorizontalAlignment="Left" Height="116" Margin="10,750,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="305"/>
 
     </Grid>
 </Window>

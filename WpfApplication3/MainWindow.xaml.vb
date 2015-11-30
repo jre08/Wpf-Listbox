@@ -1,22 +1,43 @@
 ﻿Imports System.Xml.Linq
 Imports System.Net
 Imports System.Xml
+Imports System.Globalization
+Imports Microsoft.Maps.MapControl.WPF
+Imports Microsoft.Maps.MapControl.WPF.Design
+
+
 
 Class MainWindow
+    Private locConverter As New LocationConverter()
+    Public Property Center As Location()
+
 
     Public Class ListViewItemTemplate
         Public Property ContactName As String
         Public Property Address As String
         Public Property City As String
+        Public Property imgDayIcon As String
     End Class
-    Private Sub button_Click(sender As Object, e As RoutedEventArgs) Handles button.Click
+
+    Function loadDayIcon(iconpath)
+        Dim myImage3 As New Image
+        Dim bi3 As New BitmapImage
+        bi3.BeginInit()
+        bi3.UriSource = New Uri(iconpath)
+        bi3.EndInit()
+        'myImage3.Stretch = Stretch.Fill
+        'myImage3.Source = bi3
+        Return bi3
+
+    End Function
+    Sub _4day()
         Dim itemsList As New List(Of ListViewItemTemplate)
         Dim item As New ListViewItemTemplate
         'item.ContactName = "FileName A"
         'item.Address = "FilePath A"
         'item.City = "FileType A"
         'itemsList.Add(item)
-        item = New ListViewItemTemplate
+
         'item.ContactName = "FileName B"
         'item.Address = "FilePath B"
         'item.City = "FileType B"
@@ -28,12 +49,15 @@ Class MainWindow
         xInfo.Load(xUrl)
         Dim nodes1 As XmlNodeList
         Dim picpath As String
-
         'Day one
+
         nodes1 = xInfo.SelectNodes("/response/forecast/txt_forecast/forecastdays/forecastday[position()=1]/*")
         picpath = nodes1.Item(2).InnerText
         'picboxD1.Load(picpath)
+        'picload(picpath)
+        'MsgBox(picpath)
         item = New ListViewItemTemplate
+        item.imgDayIcon = picpath
         item.ContactName = nodes1.Item(3).InnerText
         item.Address = nodes1.Item(4).InnerText
         item.City = nodes1.Item(6).InnerText
@@ -44,6 +68,7 @@ Class MainWindow
         picpath = nodes1.Item(2).InnerText
         ' picboxN1.Load(picpath)
         item = New ListViewItemTemplate
+        item.imgDayIcon = picpath
         item.ContactName = nodes1.Item(3).InnerText
         item.Address = nodes1.Item(4).InnerText
         item.City = nodes1.Item(6).InnerText
@@ -53,6 +78,7 @@ Class MainWindow
         nodes1 = xInfo.SelectNodes("/response/forecast/txt_forecast/forecastdays/forecastday[position()=3]/*")
         picpath = nodes1.Item(2).InnerText
         item = New ListViewItemTemplate
+        item.imgDayIcon = picpath
         item.ContactName = nodes1.Item(3).InnerText
         item.Address = nodes1.Item(4).InnerText
         item.City = nodes1.Item(6).InnerText
@@ -63,6 +89,7 @@ Class MainWindow
         picpath = nodes1.Item(2).InnerText
         'picboxN2.Load(picpath)
         item = New ListViewItemTemplate
+        item.imgDayIcon = picpath
         item.ContactName = nodes1.Item(3).InnerText
         item.Address = nodes1.Item(4).InnerText
         item.City = nodes1.Item(6).InnerText
@@ -73,6 +100,7 @@ Class MainWindow
         picpath = nodes1.Item(2).InnerText
         'picboxD3.Load(picpath)
         item = New ListViewItemTemplate
+        item.imgDayIcon = picpath
         item.ContactName = nodes1.Item(3).InnerText
         item.Address = nodes1.Item(4).InnerText
         item.City = nodes1.Item(6).InnerText
@@ -83,6 +111,7 @@ Class MainWindow
         picpath = nodes1.Item(2).InnerText
         ' picboxN3.Load(picpath)
         item = New ListViewItemTemplate
+        item.imgDayIcon = picpath
         item.ContactName = nodes1.Item(3).InnerText
         item.Address = nodes1.Item(4).InnerText
         item.City = nodes1.Item(6).InnerText
@@ -93,6 +122,7 @@ Class MainWindow
         picpath = nodes1.Item(2).InnerText
         'picboxD4.Load(picpath)
         item = New ListViewItemTemplate
+        item.imgDayIcon = picpath
         item.ContactName = nodes1.Item(3).InnerText
         item.Address = nodes1.Item(4).InnerText
         item.City = nodes1.Item(6).InnerText
@@ -103,26 +133,25 @@ Class MainWindow
         picpath = nodes1.Item(2).InnerText
         ' picboxN4.Load(picpath)
         item = New ListViewItemTemplate
+        item.imgDayIcon = picpath
         item.ContactName = nodes1.Item(3).InnerText
         item.Address = nodes1.Item(4).InnerText
         item.City = nodes1.Item(6).InnerText
+        itemsList.Add(item)
 
 
         listBox1.ItemsSource = itemsList
-
-
-
     End Sub
 
-    Private Sub listBox1_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles listBox1.SelectionChanged
+    Private Sub picload(picpath)
         'Dim node As XmlNode = CType(listBox1.SelectedItem, ListBoxItem).Tag
 
         Dim myListBoxItem As ListBoxItem = DirectCast(listBox1.ItemContainerGenerator.ContainerFromItem(listBox1.SelectedItem), ListBoxItem)
         Dim myContentPresenter As ContentPresenter = FindVisualChild(Of ContentPresenter)(myListBoxItem)
         Dim myDataTemplate As DataTemplate = myContentPresenter.ContentTemplate
 
-        Dim myTextBlock As TextBlock = DirectCast(myDataTemplate.FindName("Contactname", myContentPresenter), TextBlock)
-        'MessageBox.Show("The text of the named TextBlock in the DataTemplate of the selected list item: " + myTextBlock.Text)
+        Dim myTextBlock As Image = DirectCast(myDataTemplate.FindName("imgDayIcon", myContentPresenter), Image)
+        MessageBox.Show(myTextBlock.Source.ToString)
 
         'MsgBox(Convert.ToString(listBox1.Content) & " Item was selected.", Title
     End Sub
@@ -157,4 +186,29 @@ Class MainWindow
 
     End Function
 
+    Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
+        Call _4day()
+        Call _weatherMap()
+
+    End Sub
+
+    Sub _weatherMap()
+        'Dim center As Location = CType(locConverter.ConvertFrom(taginfo))
+        Dim zoom As Double = System.Convert.ToDouble(4.0)
+        ' Set the map view
+        wthrmap.SetView(New Location(35.8659551749783, -95.2603628139199), zoom)
+
+    End Sub
+    Private Sub listBox1_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles listBox1.SelectionChanged
+        Dim myListBoxItem As ListBoxItem = DirectCast(listBox1.ItemContainerGenerator.ContainerFromItem(listBox1.SelectedItem), ListBoxItem)
+        Dim myContentPresenter As ContentPresenter = FindVisualChild(Of ContentPresenter)(myListBoxItem)
+        Dim myDataTemplate As DataTemplate = myContentPresenter.ContentTemplate
+
+        Dim myTextBlock As Image = DirectCast(myDataTemplate.FindName("imgDayIcon", myContentPresenter), Image)
+        'MessageBox.Show(myTextBlock.Source.ToString)
+    End Sub
+
+    Private Sub button_Click(sender As Object, e As RoutedEventArgs) Handles button.Click
+        infobox.Text = wthrmap.Center.ToString
+    End Sub
 End Class
