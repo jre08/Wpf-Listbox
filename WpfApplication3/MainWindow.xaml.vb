@@ -7,7 +7,9 @@ Imports Microsoft.Maps.MapControl.WPF.Design
 
 
 
-Class MainWindow
+
+
+Partial Public Class MainWindow
     Private locConverter As New LocationConverter()
     Public Property Center As Location()
 
@@ -196,7 +198,7 @@ Class MainWindow
         'Dim center As Location = CType(locConverter.ConvertFrom(taginfo))
         Dim zoom As Double = System.Convert.ToDouble(4.0)
         ' Set the map view
-        wthrmap.SetView(New Location(35.8659551749783, -95.2603628139199), zoom)
+        'wthrmap.SetView(New Location(35.8659551749783, -95.2603628139199), zoom)
 
     End Sub
     Private Sub listBox1_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles listBox1.SelectionChanged
@@ -209,6 +211,8 @@ Class MainWindow
     End Sub
 
     Private Sub button_Click(sender As Object, e As RoutedEventArgs) Handles button.Click
-        infobox.Text = wthrmap.Center.ToString
+        'infobox.Text = wthrmap.Center.ToString
+        Dim frm = New Window1
+        frm.Show()
     End Sub
 End Class
