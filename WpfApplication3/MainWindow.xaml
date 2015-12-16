@@ -6,9 +6,45 @@
         
         x:Class="MainWindow"
         mc:Ignorable="d"
-        Title="Weather" Height="906.686" Width="1228.282" Loaded="Window_Loaded" WindowState="Maximized" Style="{DynamicResource MetroWindowStyle}" Icon="Resources/weatherIcon.ico">
+        Title="Weather" Height="946.686" Width="1240.282" Loaded="Window_Loaded" WindowState="Maximized" Style="{DynamicResource MetroWindowStyle}" Icon="Resources/weatherIcon.ico">
     <Window.Resources>
         <DataTemplate x:Key="itemsList">
+            <Border Margin="5" BorderBrush="White" BorderThickness="1">
+                <StackPanel Margin="3,3,3,3" Width="270">
+
+
+                    <DockPanel >
+
+                        <TextBlock FontWeight="Bold" x:Name="Contactname" Text="{Binding ContactName}" 
+
+        				DockPanel.Dock="Left" 
+
+        				Margin="5,0,10,4" Foreground="White" FontFamily="Arial Black" FontSize="18.667"/>
+
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Left" MaxWidth="250">
+
+                        <Image x:Name="imgDayIcon" Source="{Binding imgDayIcon}" Stretch="Fill" Width="50" Height="50" />
+
+
+                        <TextBlock x:Name="Address" TextWrapping="wrap" Text="{Binding Address}" Foreground="White" FontFamily="Arial Black" Margin="8,0,0,0" />
+
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock FontWeight="Bold" Text="Perciptation:" Foreground ="White"  
+
+        				DockPanel.Dock="Left" 
+
+        				Margin="5,0,5,0"/>
+
+                    </DockPanel>
+
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key="tmplt _10List">
             <Border Margin="5" BorderBrush="White" BorderThickness="1">
                 <StackPanel Margin="3,3,3,3" Width="270">
 
@@ -48,15 +84,32 @@
         <ImageBrush ImageSource="Resources/bg.jpg"/>
     </Window.Background>
 
-    <Grid Margin="0,0,0,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <ListBox Margin="10,193,0,0" x:Name="listBox1" ItemTemplate="{StaticResource itemsList}"  BorderThickness="2" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsSynchronizedWithCurrentItem="False" Background="{x:Null}" BorderBrush="White" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="305" Height="540" VerticalAlignment="Top" />
-        <WPF:Map x:Name="wthrmap" CredentialsProvider="Aq2HnustT_KqzkcjJ-p0fMGrzYDh8BDD-lVqhy9c6nDmsQgIsGTghkNpM_IY6_PK" Margin="346,193,187,173"/>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,738,0,0" Width="305" Height="37" VerticalAlignment="Top"/>
-        <TextBox x:Name="infobox" HorizontalAlignment="Left" Margin="10,780,0,0" TextWrapping="Wrap" Text="TextBox" Width="305" Height="86" VerticalAlignment="Top" SpellCheck.IsEnabled="True"/>
-        
 
-    </Grid>
+    <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="887" Margin="10,10,0,0" VerticalAlignment="Top" Width="1208" Background="{x:Null}">
+        <TabItem Header="4 Day Forecast" >
+            <Grid Margin="0,-2,0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ListBox Margin="10,45,0,0" x:Name="listBox1" ItemTemplate="{StaticResource itemsList}"  BorderThickness="2" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsSynchronizedWithCurrentItem="False" Background="{x:Null}" BorderBrush="White" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="305" Height="644" VerticalAlignment="Top" />
+                <WPF:Map x:Name="wthrmap" CredentialsProvider="Aq2HnustT_KqzkcjJ-p0fMGrzYDh8BDD-lVqhy9c6nDmsQgIsGTghkNpM_IY6_PK" Margin="346,45,10,33" RenderTransformOrigin="0.5,0.5">
+                    <WPF:Map.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="-0.159"/>
+                            <RotateTransform/>
+                            <TranslateTransform X="-0.997"/>
+                        </TransformGroup>
+                    </WPF:Map.RenderTransform>
+                </WPF:Map>
+                <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,694,0,0" Width="305" Height="37" VerticalAlignment="Top"/>
+                <TextBox x:Name="infobox" HorizontalAlignment="Left" Margin="10,736,0,0" TextWrapping="Wrap" Text="TextBox" Width="305" Height="86" VerticalAlignment="Top" SpellCheck.IsEnabled="True"/>
+            </Grid>
+        </TabItem>
+        <TabItem Header="WebCam" Margin="0">
+            <Grid Background="#FFE5E5E5"/>
+        </TabItem>
+    </TabControl>
+
+
 </Window>
